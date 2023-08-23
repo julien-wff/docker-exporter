@@ -5,6 +5,23 @@ import util from 'node:util';
 
 const fastFolderSize = util.promisify(ffs);
 
+
+function getImageName(repoTags: string[] | undefined, repoDigests: string[] | undefined): string {
+    let name = '';
+
+    if (repoTags?.length && repoTags[0] !== '<none>:<none>')
+        name = repoTags[0];
+
+    if (repoDigests?.length && repoDigests[0].includes('@sha256:'))
+        name = repoDigests[0].split('@sha256:')[0] + ':<none>';
+
+    if (!name.trim() || name === '<none>:<none>')
+        name = '<none>';
+
+    return name;
+}
+
+
 export async function getDockerMetrics(docker: Docker): Promise<DockerMetrics> {
 
     const images = await docker.listImages({ all: true });
@@ -14,7 +31,7 @@ export async function getDockerMetrics(docker: Docker): Promise<DockerMetrics> {
     const result = {
         images: images.map(image => ({
             id: image.Id,
-            repoTags: image.RepoTags || [],
+            displayName: getImageName(image.RepoTags, image.RepoDigests),
             size: image.Size,
             virtualSize: image.VirtualSize,
             containerCount: 0,
@@ -75,7 +92,7 @@ export interface DockerMetrics {
 
 export interface DockerImageMetrics {
     id: string;
-    repoTags: string[];
+    displayName: string;
     size: number;
     virtualSize: number;
     containerCount: number;

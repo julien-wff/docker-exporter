@@ -36,12 +36,12 @@ export function dockerMetricsToRegistry(metrics: DockerMetrics) {
     for (const image of metrics.images) {
         dockerImageSize.set({
             id: image.id,
-            tag: image.repoTags[0] ?? '<none>',
+            tag: image.displayName,
             containers: image.containerCount,
         }, image.size);
         dockerImageVirtualSize.set({
             id: image.id,
-            tag: image.repoTags[0] ?? '<none>',
+            tag: image.displayName,
             containers: image.containerCount,
         }, image.virtualSize);
     }
