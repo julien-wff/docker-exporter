@@ -9,10 +9,9 @@ const fastFolderSize = util.promisify(ffs);
 function getImageName(repoTags: string[] | undefined, repoDigests: string[] | undefined): string {
     let name = '';
 
-    if (repoTags?.length && repoTags[0] !== '<none>:<none>')
+    if (repoTags?.length)
         name = repoTags[0];
-
-    if (repoDigests?.length && repoDigests[0].includes('@sha256:'))
+    else if (repoDigests?.length && repoDigests[0].includes('@sha256:'))
         name = repoDigests[0].split('@sha256:')[0] + ':<none>';
 
     if (!name.trim() || name === '<none>:<none>')
