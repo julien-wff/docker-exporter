@@ -12,6 +12,7 @@ jobs:
         env:
             IMAGE_NAME: cefadrom/docker-exporter
             IMAGE_TAG: ${{ github.event.release.tag_name }}
+            BUILD_DATE: ${{ github.event.release.published_at }}
 
         steps:
             -   name: Checkout
@@ -45,4 +46,4 @@ jobs:
                         VERSION=${{ env.IMAGE_TAG }}
                         BUILD_DATE=${{ env.BUILD_DATE }}
                         VCS_REF=${{ github.sha }}
-                        VCS_URL=${{ github.event.repository.url }}
+                        VCS_URL=${{ github.repositoryUrl }}
