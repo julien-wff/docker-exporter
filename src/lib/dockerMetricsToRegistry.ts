@@ -33,6 +33,13 @@ export function registerDockerMetrics(register: Registry) {
 }
 
 export function dockerMetricsToRegistry(metrics: DockerMetrics) {
+
+    // Clear all metrics
+    dockerImageSize.reset();
+    dockerImageVirtualSize.reset();
+    dockerVolumeSize.reset();
+    dockerNetworkContainerCount.reset();
+
     for (const image of metrics.images) {
         dockerImageSize.set({
             id: image.id,
