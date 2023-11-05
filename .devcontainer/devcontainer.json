@@ -13,11 +13,14 @@
 		},
 		"ghcr.io/devcontainers/features/go:1": {
 			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/sshd:1": {
+			"version": "latest"
 		}
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [9100]
+	"forwardPorts": [2222, 9100]
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "docker --version",
