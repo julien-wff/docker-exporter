@@ -7,6 +7,7 @@ import (
 )
 
 type NetworkContainers struct {
+	Id         string
 	Network    string
 	Containers int
 }
@@ -25,10 +26,25 @@ func ExportNetworkContainers() []NetworkContainers {
 	var networkContainers []NetworkContainers
 	for _, network := range networks {
 		networkContainers = append(networkContainers, NetworkContainers{
-			Network: network.Name,
-			// TODO: the containers field is always empty, need to find a way to get the containers in a network
-			Containers: len(network.Containers),
+			Id:         network.ID,
+			Network:    network.Name,
+			Containers: 0,
 		})
+	}
+
+	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: true})
+	if err != nil {
+		panic(err)
+	}
+
+	for _, container := range containers {
+		for _, containerNetwork := range container.NetworkSettings.Networks {
+			for netInd, networkContainer := range networkContainers {
+				if networkContainer.Id == containerNetwork.NetworkID {
+					networkContainers[netInd].Containers++
+				}
+			}
+		}
 	}
 
 	err = cli.Close()
