@@ -31,5 +31,10 @@ func ExportNetworkContainers() []NetworkContainers {
 		})
 	}
 
+	err = cli.Close()
+	if err != nil {
+		panic(err)
+	}
+
 	return networkContainers
 }
