@@ -33,11 +33,9 @@ func ExportVolumeSize() []VolumeSize {
 
 	var volumeSize []VolumeSize
 	for _, vol := range volumes.Volumes {
-		size, _ := getVolumeSize(vol.Mountpoint)
 		volumeSize = append(volumeSize, VolumeSize{
 			Name:           vol.Name,
 			MountPoint:     vol.Mountpoint,
-			Size:           size,
 			ComposeProject: vol.Labels["com.docker.compose.project"],
 		})
 	}
@@ -55,6 +53,17 @@ func ExportVolumeSize() []VolumeSize {
 				}
 			}
 		}
+	}
+
+	// Calculate up to 8 volumes in parallel
+	sem := make(chan bool, 8)
+	for i, vol := range volumeSize {
+		sem <- true
+		go func(i int, vol VolumeSize) {
+			size, _ := getVolumeSize(vol.MountPoint)
+			volumeSize[i].Size = size
+			<-sem
+		}(i, vol)
 	}
 
 	err = cli.Close()
