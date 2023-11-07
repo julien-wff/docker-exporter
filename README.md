@@ -90,10 +90,10 @@ docker_volume_size_bytes{name="dockprom_prometheus_data",mountpoint="/var/lib/do
 
 # HELP docker_network_container_count Number of containers per network
 # TYPE docker_network_container_count gauge
-docker_network_container_count{id="39b29ca27bc870e8259451db4c13b76ca88a0d211d3fe102eb5689938f094355",name="host"} 0
-docker_network_container_count{id="ea78f0a6ef4949b684c155c5b11addb9cd79b7e2c0f7d43791c699373c5ca921",name="proxy"} 3
-docker_network_container_count{id="d199cf3d3d45932efc1140e12922b07e8b31ba2715c1f686d44eff19ad7b69c7",name="bridge"} 0
-docker_network_container_count{id="e9dcbdd6749b380fcc8789abbe7fe4eeb985110287d6ad4ef71026640688a914",name="none"} 0
+docker_network_container_count{id="39b29ca27bc870e8259451db4c13b76ca88a0d211d3fe102eb5689938f094355",name="host",compose_project=""} 0
+docker_network_container_count{id="ea78f0a6ef4949b684c155c5b11addb9cd79b7e2c0f7d43791c699373c5ca921",name="proxy",compose_project=""} 3
+docker_network_container_count{id="d199cf3d3d45932efc1140e12922b07e8b31ba2715c1f686d44eff19ad7b69c7",name="bridge",compose_project=""} 0
+docker_network_container_count{id="e9dcbdd6749b380fcc8789abbe7fe4eeb985110287d6ad4ef71026640688a914",name="none",compose_project=""} 0
 
 # HELP docker_last_scrape_duration_seconds Time it took to scrape docker metrics
 # TYPE docker_last_scrape_duration_seconds gauge

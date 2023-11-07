@@ -7,9 +7,10 @@ import (
 )
 
 type NetworkContainers struct {
-	Id         string
-	Network    string
-	Containers int
+	Id             string
+	Network        string
+	Containers     int
+	ComposeProject string
 }
 
 func ExportNetworkContainers() []NetworkContainers {
@@ -26,9 +27,10 @@ func ExportNetworkContainers() []NetworkContainers {
 	var networkContainers []NetworkContainers
 	for _, network := range networks {
 		networkContainers = append(networkContainers, NetworkContainers{
-			Id:         network.ID,
-			Network:    network.Name,
-			Containers: 0,
+			Id:             network.ID,
+			Network:        network.Name,
+			Containers:     0,
+			ComposeProject: network.Labels["com.docker.compose.project"],
 		})
 	}
 

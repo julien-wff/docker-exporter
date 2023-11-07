@@ -16,6 +16,8 @@ func CollectNetworkContainers(wg *sync.WaitGroup, collector *DockerCollector, ch
 			collector.networkContainersMetrics,
 			prometheus.GaugeValue,
 			float64(net.Containers),
-			net.Network)
+			net.Id,
+			net.Network,
+			net.ComposeProject)
 	}
 }

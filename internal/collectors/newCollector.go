@@ -48,7 +48,7 @@ func NewDockerCollector() *DockerCollector {
 		networkContainersMetrics: prometheus.NewDesc(
 			"docker_network_container_count",
 			"Number of containers per network",
-			[]string{"name"},
+			[]string{"id", "name", "compose_project"},
 			nil,
 		),
 		scrapeDurationMetric: prometheus.NewDesc(
