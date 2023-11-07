@@ -2,7 +2,6 @@ package config
 
 import (
 	"os"
-	"strconv"
 	"time"
 )
 
@@ -11,15 +10,12 @@ type Config struct {
 }
 
 func GetConfig() Config {
-	timeout, err := strconv.Atoi(os.Getenv("REQUEST_TIMEOUT"))
+	timeout, err := time.ParseDuration(os.Getenv("REQUEST_TIMEOUT"))
 	if err != nil || timeout < 0 {
-		timeout = 120
-	}
-	if timeout == 0 {
-		timeout = 24 * 3600
+		timeout = 120 * time.Second
 	}
 
 	return Config{
-		RequestTimeout: time.Duration(timeout) * time.Second,
+		RequestTimeout: timeout,
 	}
 }

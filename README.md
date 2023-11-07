@@ -76,9 +76,9 @@ scrape_configs:
 
 You can change some of the exporter settings using environment variables:
 
-| Environment variable | Default value | Description                                                                   |
-|----------------------|---------------|-------------------------------------------------------------------------------|
-| `REQUEST_TIMEOUT`    | `120`         | Seconds it takes to cancel operations and send the response, 0 for no timeout |
+| Environment variable | Default value | Description                                                                                                          |
+|----------------------|---------------|----------------------------------------------------------------------------------------------------------------------|
+| `REQUEST_TIMEOUT`    | `120s`        | Time it takes to cancel operations and send the response (valid [go duration](https://pkg.go.dev/time#ParseDuration) |
 
 ## Metrics
 
