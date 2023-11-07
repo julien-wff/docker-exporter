@@ -36,7 +36,7 @@ func NewDockerCollector() *DockerCollector {
 		volumesMetrics: prometheus.NewDesc(
 			"docker_volume_size_bytes",
 			"Size of docker volumes",
-			[]string{"name", "mountpoint", "containers"},
+			[]string{"name", "mountpoint", "compose_project", "containers"},
 			nil,
 		),
 		imageSizeMetrics: prometheus.NewDesc(

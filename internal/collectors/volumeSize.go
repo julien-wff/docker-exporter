@@ -19,6 +19,7 @@ func CollectVolumeSize(wg *sync.WaitGroup, collector *DockerCollector, ch chan<-
 			float64(vol.Size),
 			vol.Name,
 			vol.MountPoint,
+			vol.ComposeProject,
 			strconv.Itoa(vol.Containers))
 	}
 }

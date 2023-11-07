@@ -12,10 +12,11 @@ import (
 )
 
 type VolumeSize struct {
-	Name       string
-	MountPoint string
-	Size       int
-	Containers int
+	Name           string
+	MountPoint     string
+	Size           int
+	Containers     int
+	ComposeProject string
 }
 
 func ExportVolumeSize() []VolumeSize {
@@ -33,9 +34,10 @@ func ExportVolumeSize() []VolumeSize {
 	for _, vol := range volumes.Volumes {
 		size, _ := getVolumeSize(vol.Mountpoint)
 		volumeSize = append(volumeSize, VolumeSize{
-			Name:       vol.Name,
-			MountPoint: vol.Mountpoint,
-			Size:       size,
+			Name:           vol.Name,
+			MountPoint:     vol.Mountpoint,
+			Size:           size,
+			ComposeProject: vol.Labels["com.docker.compose.project"],
 		})
 	}
 
