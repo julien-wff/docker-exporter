@@ -18,6 +18,6 @@ func main() {
 	promHandler := promhttp.HandlerFor(reg, promhttp.HandlerOpts{})
 	mux.Handle("/metrics", promHandler)
 
-	log.Printf("Starting server on port 9100")
+	log.Printf("Starting server on port 9100\n")
 	log.Fatal(http.ListenAndServe(":9100", mux))
 }
