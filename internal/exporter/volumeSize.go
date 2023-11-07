@@ -76,7 +76,7 @@ func getVolumeSize(mountpoint string) (int, error) {
 	out, err := cmd.Output()
 	if err != nil {
 		log.Printf("error getting volume size at mountpoint %s: %s\n", mountpoint, err)
-		return -1, err
+		return 0, err
 	}
 
 	// Parse the output of du
@@ -89,7 +89,7 @@ func getVolumeSize(mountpoint string) (int, error) {
 	intSize, err := strconv.Atoi(size)
 	if err != nil {
 		log.Printf("error converting volume size to int: %s\n", err)
-		return -1, err
+		return 0, err
 	}
 
 	return intSize, nil
