@@ -5,11 +5,11 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/volume"
 	"github.com/docker/docker/client"
+	"github.com/julien-wff/docker-exporter/internal/config"
 	"log"
 	"os/exec"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type VolumeSize struct {
@@ -67,8 +67,8 @@ func ExportVolumeSize() []VolumeSize {
 
 func getVolumeSize(mountpoint string) (int, error) {
 	// Context with timeout
-	const timeoutSeconds = 60
-	ctx, cancel := context.WithTimeout(context.Background(), timeoutSeconds*time.Second)
+	cfg := config.GetConfig()
+	ctx, cancel := context.WithTimeout(context.Background(), cfg.RequestTimeout)
 	defer cancel()
 
 	// Get the size of the volume using du

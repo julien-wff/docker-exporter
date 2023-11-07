@@ -72,6 +72,14 @@ scrape_configs:
             -   targets: [ 'docker-exporter:9100' ]
 ```
 
+## Configuration
+
+You can change some of the exporter settings using environment variables:
+
+| Environment variable | Default value | Description                                                                   |
+|----------------------|---------------|-------------------------------------------------------------------------------|
+| `REQUEST_TIMEOUT`    | `120`         | Seconds it takes to cancel operations and send the response, 0 for no timeout |
+
 ## Metrics
 
 Here is a sample of the metrics exposed by the exporter :
