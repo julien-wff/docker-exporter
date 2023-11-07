@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type VolumeSize struct {
@@ -65,8 +66,13 @@ func ExportVolumeSize() []VolumeSize {
 }
 
 func getVolumeSize(mountpoint string) (int, error) {
+	// Context with timeout
+	const timeoutSeconds = 60
+	ctx, cancel := context.WithTimeout(context.Background(), timeoutSeconds*time.Second)
+	defer cancel()
+
 	// Get the size of the volume using du
-	cmd := exec.Command("du", "-sb", mountpoint)
+	cmd := exec.CommandContext(ctx, "du", "-sb", mountpoint)
 	out, err := cmd.Output()
 	if err != nil {
 		log.Printf("error getting volume size at mountpoint %s: %s\n", mountpoint, err)
