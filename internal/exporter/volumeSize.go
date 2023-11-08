@@ -5,11 +5,9 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/volume"
 	"github.com/docker/docker/client"
-	"github.com/julien-wff/docker-exporter/internal/config"
 	"log"
-	"os/exec"
-	"strconv"
-	"strings"
+	"os"
+	"path/filepath"
 )
 
 type VolumeSize struct {
@@ -60,10 +58,18 @@ func ExportVolumeSize() []VolumeSize {
 	for i, vol := range volumeSize {
 		sem <- true
 		go func(i int, vol VolumeSize) {
-			size, _ := getVolumeSize(vol.MountPoint)
+			size, err := getVolumeSize(vol.MountPoint)
+			if err != nil {
+				log.Println("Error getting volume size:", err)
+			}
 			volumeSize[i].Size = size
 			<-sem
 		}(i, vol)
+	}
+
+	// Wait for all goroutines to finish
+	for i := 0; i < cap(sem); i++ {
+		sem <- true
 	}
 
 	err = cli.Close()
@@ -75,31 +81,15 @@ func ExportVolumeSize() []VolumeSize {
 }
 
 func getVolumeSize(mountpoint string) (int, error) {
-	// Context with timeout
-	cfg := config.GetConfig()
-	ctx, cancel := context.WithTimeout(context.Background(), cfg.RequestTimeout)
-	defer cancel()
-
-	// Get the size of the volume using du
-	cmd := exec.CommandContext(ctx, "du", "-sb", mountpoint)
-	out, err := cmd.Output()
-	if err != nil {
-		log.Printf("error getting volume size at mountpoint %s: %s\n", mountpoint, err)
-		return 0, err
-	}
-
-	// Parse the output of du
-	size := string(out)
-	size = strings.Split(size, "\t")[0]
-	size = strings.Replace(size, "\n", "", -1)
-	size = strings.Replace(size, " ", "", -1)
-
-	// Return size converted to int
-	intSize, err := strconv.Atoi(size)
-	if err != nil {
-		log.Printf("error converting volume size to int: %s\n", err)
-		return 0, err
-	}
-
-	return intSize, nil
+	var size int
+	err := filepath.Walk(mountpoint, func(_ string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() {
+			size += int(info.Size())
+		}
+		return nil
+	})
+	return size, err
 }
