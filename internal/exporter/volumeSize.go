@@ -55,15 +55,25 @@ func ExportVolumeSize() []VolumeSize {
 		}
 	}
 
+	cfg := config.GetConfig()
+
 	// Calculate up to 8 volumes in parallel
-	sem := make(chan bool, 8)
-	for i, vol := range volumeSize {
-		sem <- true
-		go func(i int, vol VolumeSize) {
-			size, _ := getVolumeSize(vol.MountPoint)
-			volumeSize[i].Size = size
-			<-sem
-		}(i, vol)
+	if cfg.CalculateVolumeSize {
+		sem := make(chan bool, 8)
+		for i, vol := range volumeSize {
+			sem <- true
+			go func(i int, vol VolumeSize) {
+				size, _ := getVolumeSize(vol.MountPoint)
+				volumeSize[i].Size = size
+				<-sem
+			}(i, vol)
+		}
+
+		// Wait for all goroutines to finish
+		for i := 0; i < cap(sem); i++ {
+			sem <- true
+		}
+		close(sem)
 	}
 
 	err = cli.Close()

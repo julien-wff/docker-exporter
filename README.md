@@ -76,9 +76,10 @@ scrape_configs:
 
 You can change some of the exporter settings using environment variables:
 
-| Environment variable | Default value | Description                                                                                                          |
-|----------------------|---------------|----------------------------------------------------------------------------------------------------------------------|
-| `REQUEST_TIMEOUT`    | `120s`        | Time it takes to cancel operations and send the response (valid [go duration](https://pkg.go.dev/time#ParseDuration) |
+| Environment variable    | Default value | Description                                                                                                          |
+|-------------------------|---------------|----------------------------------------------------------------------------------------------------------------------|
+| `CALCULATE_VOLUME_SIZE` | `TRUE`        | Enable the volume size calculation using the system command `du`                                                     | 
+| `REQUEST_TIMEOUT`       | `120s`        | Time it takes to cancel operations and send the response (valid [go duration](https://pkg.go.dev/time#ParseDuration) |
 
 ## Metrics
 

@@ -24,6 +24,13 @@ func main() {
 	log.Println("")
 	log.Println("Config:")
 	log.Printf("- Using a request timeout of %s\n", cfg.RequestTimeout.String())
+	log.Printf("- Calculation of volume size is %s\n", func() string {
+		if cfg.CalculateVolumeSize {
+			return "enabled"
+		} else {
+			return "disabled"
+		}
+	}())
 	log.Println("")
 
 	log.Printf("Starting server on port 9100\n")
