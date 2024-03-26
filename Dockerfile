@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine AS builder
+FROM golang:1.22.1-alpine AS builder
 
 WORKDIR /app
 
@@ -29,8 +29,8 @@ LABEL org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.revision=$VCS_REF \
       org.opencontainers.image.title="docker-exporter" \
       org.opencontainers.image.description="A prometheus exporter to expose docker metrics that are normally not available through cAdvisor" \
-      org.opencontainers.image.base.name="node:20-alpine" \
-      org.opencontainers.image.base.version="20-alpine"
+      org.opencontainers.image.base.name="golang" \
+      org.opencontainers.image.base.version="1.22.1-alpine"
 
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 --start-period=5s CMD wget -q -O - http://localhost:${SERVER_PORT}/health || exit 1
 

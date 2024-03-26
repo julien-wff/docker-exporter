@@ -1,6 +1,6 @@
 module github.com/julien-wff/docker-exporter
 
-go 1.21.3
+go 1.22.1
 
 require (
 	github.com/docker/docker v24.0.7+incompatible
