@@ -45,8 +45,8 @@ func ExportVolumeSize() []VolumeSize {
 		panic(err)
 	}
 
-	for _, container := range containers {
-		for _, mount := range container.Mounts {
+	for _, ctr := range containers {
+		for _, mount := range ctr.Mounts {
 			for i, vol := range volumeSize {
 				if vol.MountPoint == mount.Source {
 					volumeSize[i].Containers++

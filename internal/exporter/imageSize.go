@@ -41,9 +41,9 @@ func ExportImageSize() []ImageSize {
 		panic(err)
 	}
 
-	for _, container := range containers {
-		for ind, image := range imageSize {
-			if container.ImageID == image.Id {
+	for _, ctr := range containers {
+		for ind, img := range imageSize {
+			if ctr.ImageID == img.Id {
 				imageSize[ind].Containers++
 				break
 			}
