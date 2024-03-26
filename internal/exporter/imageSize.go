@@ -2,7 +2,8 @@ package exporter
 
 import (
 	"context"
-	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/image"
 	"github.com/docker/docker/client"
 	"strings"
 )
@@ -20,22 +21,22 @@ func ExportImageSize() []ImageSize {
 		panic(err)
 	}
 
-	images, err := cli.ImageList(context.Background(), types.ImageListOptions{})
+	images, err := cli.ImageList(context.Background(), image.ListOptions{})
 	if err != nil {
 		panic(err)
 	}
 
 	var imageSize []ImageSize
-	for _, image := range images {
+	for _, img := range images {
 		imageSize = append(imageSize, ImageSize{
-			Id:         image.ID,
-			Tag:        getImageTag(image.RepoTags, image.RepoDigests),
+			Id:         img.ID,
+			Tag:        getImageTag(img.RepoTags, img.RepoDigests),
 			Containers: 0,
-			Size:       int(image.Size),
+			Size:       int(img.Size),
 		})
 	}
 
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: true})
+	containers, err := cli.ContainerList(context.Background(), container.ListOptions{All: true})
 	if err != nil {
 		panic(err)
 	}

@@ -2,7 +2,7 @@ package exporter
 
 import (
 	"context"
-	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/volume"
 	"github.com/docker/docker/client"
 	"github.com/julien-wff/docker-exporter/internal/config"
@@ -40,7 +40,7 @@ func ExportVolumeSize() []VolumeSize {
 		})
 	}
 
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: true})
+	containers, err := cli.ContainerList(context.Background(), container.ListOptions{All: true})
 	if err != nil {
 		panic(err)
 	}

@@ -3,6 +3,7 @@ package exporter
 import (
 	"context"
 	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
 )
 
@@ -34,13 +35,13 @@ func ExportNetworkContainers() []NetworkContainers {
 		})
 	}
 
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: true})
+	containers, err := cli.ContainerList(context.Background(), container.ListOptions{All: true})
 	if err != nil {
 		panic(err)
 	}
 
-	for _, container := range containers {
-		for _, containerNetwork := range container.NetworkSettings.Networks {
+	for _, ctr := range containers {
+		for _, containerNetwork := range ctr.NetworkSettings.Networks {
 			for netInd, networkContainer := range networkContainers {
 				if networkContainer.Id == containerNetwork.NetworkID {
 					networkContainers[netInd].Containers++
