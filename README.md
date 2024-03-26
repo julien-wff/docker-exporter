@@ -43,33 +43,33 @@ monitoring stack :
 
 ```yaml
 services:
-    prometheus:
-      image: prom/prometheus:latest
-        container_name: prometheus
-        volumes:
-            - ./prometheus.yml:/etc/prometheus/prometheus.yml
-        ports:
-            - 9090:9090
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
 
-    docker-exporter:
-      image: cefadrom/docker-exporter:2
-        container_name: docker-exporter
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock # To access docker API
-            - /var/lib/docker/volumes:/var/lib/docker/volumes:ro # If you want to get volumes size
-        ports:
-            - 9100:9100
+  docker-exporter:
+    image: cefadrom/docker-exporter:2
+    container_name: docker-exporter
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # To access docker API
+      - /var/lib/docker/volumes:/var/lib/docker/volumes:ro # If you want to get volumes size
+    ports:
+      - 9100:9100
 ```
 
 Finally, configure your `prometheus.yml` file to scrape the exporter. Note that a high scrape interval is recommended as
-the volume size calculation may be quite ressource intensive, and the data does not change that often.
+the volume size calculation may be quite resource intensive, and the data does not change that often.
 
 ```yaml
 scrape_configs:
-    -   job_name: 'docker-exporter'
-        scrape_interval: 10m
-        static_configs:
-            -   targets: [ 'docker-exporter:9100' ]
+  - job_name: 'docker-exporter'
+    scrape_interval: 10m
+    static_configs:
+      - targets: [ 'docker-exporter:9100' ]
 ```
 
 ## Configuration
