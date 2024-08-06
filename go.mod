@@ -3,8 +3,8 @@ module github.com/julien-wff/docker-exporter
 go 1.22.1
 
 require (
-	github.com/docker/docker v26.0.0+incompatible
-	github.com/prometheus/client_golang v1.19.0
+	github.com/docker/docker v27.1.1+incompatible
+	github.com/prometheus/client_golang v1.19.1
 )
 
 require (
@@ -35,8 +35,8 @@ require (
 	go.opentelemetry.io/otel/sdk v1.24.0 // indirect
 	go.opentelemetry.io/otel/trace v1.24.0 // indirect
 	golang.org/x/mod v0.8.0 // indirect
-	golang.org/x/net v0.20.0 // indirect
-	golang.org/x/sys v0.17.0 // indirect
+	golang.org/x/net v0.27.0 // indirect
+	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/time v0.4.0 // indirect
 	golang.org/x/tools v0.6.0 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
